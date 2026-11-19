@@ -1,5 +1,5 @@
 import { LightningIcon, PaletteIcon, ShieldCheckIcon, TranslateIcon } from '@phosphor-icons/react'
-import { Badge } from 'ixia-ui-react'
+import { Badge } from 'ixia-ui-react/badge'
 
 import { LanguageSelect } from '@/components/language-select'
 import { ThemeSelect } from '@/components/theme-select'

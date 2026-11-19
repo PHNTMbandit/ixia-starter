@@ -25,3 +25,31 @@ release. Add a tool name to select part of the graph. For example, run
 - [ ] If setup, runtime, or package-manager behavior looks wrong, run `vp env doctor` and include its output when asking for help.
 
 <!--VITE PLUS END-->
+
+# Project guide
+
+This is a React/TypeScript TanStack Start application using Vite+, Tailwind CSS,
+and Ixia UI. Read `README.md` and `package.json` to identify the features and
+scripts selected for this project; authentication, database, localization,
+content, Storybook, and testing are optional.
+
+## Layout and conventions
+
+- `src/routes/` contains file-based routes; `src/routeTree.gen.ts` is generated
+  and should not be edited. The `@/` alias points to `src/`.
+- Place feature-specific code in `src/features/` and shared UI in
+  `src/components/` when those directories are present or needed.
+- Import Ixia UI components from subpaths, such as `ixia-ui-react/button`, not
+  the package root. Follow the existing TypeScript and React patterns.
+- If localization is enabled, edit the configured `messages/` source files
+  rather than generated `src/paraglide/` output.
+- Keep server credentials in environment variables, never in client code or
+  committed files. Use `.env-template`, when present, for placeholders only.
+
+## Validation
+
+- Use `vp check`, `vp test`, and `vp build` as appropriate for the change.
+  Testing and Storybook are optional; Storybook browser tests require
+  Playwright browsers.
+- Consult the selected-feature sections of `README.md` for feature-specific
+  setup and commands.

@@ -24,6 +24,10 @@ pnpm --filter create-ixia build
 
 The CLI build is especially relevant when changing files under `packages/create-ixia` or its templates. Pull requests should target `main`.
 
+The repository's `.github/workflows/ci.yml` is also the CLI's GitHub Actions
+template at `packages/create-ixia/templates/features/github-actions/.github/workflows/ci.yml`.
+Keep the two files identical; the scaffold tests check for drift.
+
 ## Commit Messages
 
 Use Conventional Commit messages because release versions and notes are generated from commit history. Examples:

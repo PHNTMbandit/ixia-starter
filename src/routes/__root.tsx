@@ -1,6 +1,7 @@
 import type { QueryClient } from '@tanstack/react-query'
 import { HeadContent, Scripts, createRootRouteWithContext } from '@tanstack/react-router'
-import { DrawerProvider, ToastProvider } from 'ixia-ui-react'
+import { DrawerProvider } from 'ixia-ui-react/drawer'
+import { ToastProvider } from 'ixia-ui-react/toast'
 
 import { ThemeProvider } from '@/hooks/use-theme'
 import { getLocale } from '@/paraglide/runtime'

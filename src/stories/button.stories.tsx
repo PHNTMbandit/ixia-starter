@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Button } from 'ixia-ui-react'
+import { Button } from 'ixia-ui-react/button'
 
 // Example story: explore Ixia UI's Button via the controls panel.
 const meta = {

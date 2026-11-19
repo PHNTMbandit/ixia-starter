@@ -1,13 +1,13 @@
 import { TranslateIcon } from '@phosphor-icons/react'
 import {
-  cn,
   Select,
   SelectItem,
   SelectList,
   SelectPopup,
   SelectTrigger,
   SelectValue,
-} from 'ixia-ui-react'
+} from 'ixia-ui-react/select'
+import { cn } from 'ixia-ui-react/utils'
 
 import { m } from '@/paraglide/messages'
 import { getLocale, locales, setLocale } from '@/paraglide/runtime'

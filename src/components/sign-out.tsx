@@ -1,5 +1,6 @@
 import { useNavigate } from '@tanstack/react-router'
-import { Button, cn } from 'ixia-ui-react'
+import { Button } from 'ixia-ui-react/button'
+import { cn } from 'ixia-ui-react/utils'
 
 import { signOut } from '@/lib/auth-client.ts'
 import { m } from '@/paraglide/messages'

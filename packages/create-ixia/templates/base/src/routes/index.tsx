@@ -8,7 +8,7 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 // #else
 import { createFileRoute } from '@tanstack/react-router'
 // #endif
-import { Button } from 'ixia-ui-react'
+import { Button } from 'ixia-ui-react/button'
 
 // #if dark-mode
 import { ThemeSelect } from '@/components/theme-select'

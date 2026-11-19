@@ -10,15 +10,25 @@
  */
 
 export type FeatureId =
-  | 'neon-drizzle'
   | 'auth'
+  | 'commit-tooling'
+  | 'content-page'
   | 'dark-mode'
+  | 'github-actions'
+  | 'highlight'
   | 'localization'
+  | 'markdown-full'
+  | 'markdown-lite'
+  | 'neon-drizzle'
   | 'storybook'
   | 'testing'
-  | 'shiki'
-  | 'commit-tooling'
-  | 'github-actions'
+
+export type FeatureGroupId = 'markdown'
+
+/** Features in a group are alternatives: a project gets at most one of them. */
+export const FEATURE_GROUPS: Record<FeatureGroupId, { message: string; none: string }> = {
+  markdown: { message: 'How should content pages be written?', none: 'None' },
+}
 
 export interface Feature {
   id: FeatureId
@@ -28,6 +38,10 @@ export interface Feature {
   hint: string
   /** Pre-selected in the prompt when true. */
   recommended?: boolean
+  /** Added only as a dependency of other features; not offered in the prompt. */
+  hidden?: boolean
+  /** Mutually exclusive with the other features in the group; chosen with a single select. */
+  group?: FeatureGroupId
   /** Other features that must be enabled for this one to work. */
   requires?: FeatureId[]
   /** Runtime deps added to the generated package.json. */
@@ -47,8 +61,8 @@ export interface Feature {
 export const FEATURES: Feature[] = [
   {
     dependencies: {
-      '@better-auth/drizzle-adapter': '^1.7.7',
-      'better-auth': '^1.7.7',
+      '@better-auth/drizzle-adapter': '^1.7.25',
+      'better-auth': '^1.7.25',
     },
     env: [
       {
@@ -75,8 +89,8 @@ export const FEATURES: Feature[] = [
   },
   {
     devDependencies: {
-      '@commitlint/cli': '^21.2.3',
-      '@commitlint/config-conventional': '^21.2.3',
+      '@commitlint/cli': '^21.2.4',
+      '@commitlint/config-conventional': '^21.2.4',
       commitizen: '^4.3.2',
       'cz-conventional-changelog': '^3.3.0',
     },
@@ -88,6 +102,13 @@ export const FEATURES: Feature[] = [
       cz: 'cz',
     },
     templateDir: 'commit-tooling',
+  },
+  {
+    hidden: true,
+    hint: 'Page header, table of contents, pagination, copy button and code blocks',
+    id: 'content-page',
+    label: 'Content page',
+    templateDir: 'content-page',
   },
   {
     hint: 'SSR-safe light/dark/system theme with persistence',
@@ -104,10 +125,24 @@ export const FEATURES: Feature[] = [
   },
   {
     dependencies: {
-      '@inlang/paraglide-js-react': '^1.0.3',
+      '@tanstack/highlight': '^1.2.12',
+    },
+    hint: 'Build-time code highlighting for MDX, with light and dark themes (needs Markdown Full)',
+    id: 'highlight',
+    label: 'Syntax highlighting (TanStack Highlight)',
+    postInstallNotes: [
+      'Fences are highlighted when pages compile; add languages in `src/features/highlight/utils/highlighter.ts`.',
+      'Opt a fence into line numbers with its meta string, for example ```tsx lineNumbers.',
+    ],
+    requires: ['markdown-full'],
+    templateDir: 'highlight',
+  },
+  {
+    dependencies: {
+      '@inlang/paraglide-js-react': '^1.0.4',
     },
     devDependencies: {
-      '@inlang/paraglide-js': '^2.27.0',
+      '@inlang/paraglide-js': '^3.2.2',
     },
     hint: 'Compiled, type-safe i18n (English + Japanese to start)',
     id: 'localization',
@@ -120,13 +155,57 @@ export const FEATURES: Feature[] = [
   },
   {
     dependencies: {
-      '@neondatabase/serverless': '^1.2.0',
+      '@tanstack/markdown': '1.2.0',
+    },
+    group: 'markdown',
+    hint: 'Plain Markdown rendered at runtime from any string. No build step, no JSX.',
+    id: 'markdown-lite',
+    label: 'Lite: TanStack Markdown',
+    postInstallNotes: [
+      'Render a string with `<Markdown content={page.content} />` from `@/features/markdown-lite`.',
+      'Sample pages live in `src/content/pages.ts` and are served at `/content/<slug>`.',
+      'Need JSX components inside your content? Choose Markdown Full (MDX) instead.',
+    ],
+    requires: ['content-page'],
+    templateDir: 'markdown-lite',
+  },
+  {
+    dependencies: {
+      '@content-collections/mdx': '^0.2.2',
+    },
+    devDependencies: {
+      '@content-collections/core': '^0.15.3',
+      '@content-collections/vite': '^0.3.1',
+      '@types/mdast': '^4.0.4',
+      'github-slugger': '^2.0.0',
+      'mdast-util-to-string': '^4.0.0',
+      'remark-gfm': '^4.0.1',
+      'remark-parse': '^11.0.0',
+      unified: '^11.0.5',
+      'unist-util-visit': '^5.2.0',
+    },
+    group: 'markdown',
+    hint: 'MDX pages with React components, compiled at build time by Content Collections',
+    id: 'markdown-full',
+    label: 'Full: MDX (Content Collections)',
+    postInstallNotes: [
+      'Add `.mdx` files to `content/`; they are served at `/content/<file-name>` by `src/routes/content.$slug.tsx`.',
+      'Render a compiled page with `<Mdx code={page.mdx} />` from `@/features/markdown-full`.',
+      'Register components used as JSX tags through the `components` prop; MDX `import` statements are bundled at build time.',
+      'Edit `content-collections.ts` to add collections or change the front-matter schema.',
+    ],
+    requires: ['content-page'],
+    templateDir: 'markdown-full',
+  },
+  {
+    dependencies: {
+      '@neondatabase/serverless': '^1.2.1',
       'drizzle-orm': '^0.45.4',
       pg: '^8.23.1',
     },
     devDependencies: {
       '@types/pg': '^8.23.1',
-      dotenv: '^18.0.7',
+      dotenv: '^18.0.10',
       'drizzle-kit': '0.31.11',
     },
     env: [
@@ -155,14 +234,14 @@ export const FEATURES: Feature[] = [
   },
   {
     devDependencies: {
-      '@storybook/addon-a11y': '^10.6.2',
-      '@storybook/addon-docs': '^10.6.2',
-      '@storybook/addon-themes': '^10.6.2',
-      '@storybook/addon-vitest': '^10.6.2',
-      '@storybook/react-vite': '^10.6.2',
+      '@storybook/addon-a11y': '^10.6.7',
+      '@storybook/addon-docs': '^10.6.7',
+      '@storybook/addon-themes': '^10.6.7',
+      '@storybook/addon-vitest': '^10.6.7',
+      '@storybook/react-vite': '^10.6.7',
       '@vitest/browser-playwright': 'catalog:',
-      playwright: '^1.64.0',
-      storybook: '^10.6.2',
+      playwright: '^1.65.1',
+      storybook: '^10.6.7',
     },
     hint: 'Component development and visual testing',
     id: 'storybook',
@@ -174,22 +253,12 @@ export const FEATURES: Feature[] = [
     templateDir: 'storybook',
   },
   {
-    dependencies: {
-      prettier: '^3.9.10',
-      shiki: '^4.5.0',
-    },
-    hint: 'Beautiful code blocks with GitHub themes',
-    id: 'shiki',
-    label: 'Syntax highlighting (Shiki)',
-    templateDir: 'shiki',
-  },
-  {
     devDependencies: {
       '@testing-library/dom': '^10.4.2',
       '@testing-library/jest-dom': '^7.0.1',
       '@testing-library/react': '^16.3.3',
-      jsdom: '^30.1.2',
-      playwright: '^1.64.0',
+      jsdom: '^31.0.1',
+      playwright: '^1.65.1',
     },
     hint: 'Unit and browser tests with Testing Library',
     id: 'testing',
@@ -224,6 +293,15 @@ export function resolveSelection(selected: FeatureId[]): FeatureId[] {
 
   for (const id of selected) {
     visit(id)
+  }
+
+  for (const group of Object.keys(FEATURE_GROUPS)) {
+    const chosen = FEATURES.filter((feature) => feature.group === group && resolved.has(feature.id))
+    if (chosen.length > 1) {
+      throw new Error(
+        `Choose only one of: ${chosen.map((feature) => feature.id).join(', ')}. They overlap.`,
+      )
+    }
   }
 
   return FEATURES.filter((feature) => resolved.has(feature.id)).map((feature) => feature.id)

@@ -1,0 +1,24 @@
+---
+title: Use components
+description: Register React components once, then use them as JSX tags in any page.
+order: 1
+---
+
+## JSX in content
+
+`Alert` is registered in `src/routes/content.$slug.tsx`, so this page can use it directly:
+
+<Alert tone="info">
+  <Alert.Title>Registered, not imported</Alert.Title>
+  <Alert.Description>
+    Content Collections bundles `import` statements into each page, so register shared components instead.
+  </Alert.Description>
+</Alert>
+
+## Add your own
+
+Pass any component through the `components` prop of `Mdx`:
+
+```tsx
+<Mdx code={page.mdx} components={{ Alert, Callout }} />
+```

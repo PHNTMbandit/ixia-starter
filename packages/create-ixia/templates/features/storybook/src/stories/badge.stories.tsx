@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Badge } from 'ixia-ui-react'
+import { Badge } from 'ixia-ui-react/badge'
 
 // Example story: explore Ixia UI's Badge tones and variants.
 const meta = {

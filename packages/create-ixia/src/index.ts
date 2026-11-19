@@ -3,10 +3,20 @@ import { existsSync, readdirSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { cancel, intro, isCancel, multiselect, note, outro, spinner, text } from '@clack/prompts'
+import {
+  cancel,
+  intro,
+  isCancel,
+  multiselect,
+  note,
+  outro,
+  select,
+  spinner,
+  text,
+} from '@clack/prompts'
 import pc from 'picocolors'
 
-import { FEATURES, resolveSelection } from './features.js'
+import { FEATURE_GROUPS, FEATURES, resolveSelection } from './features.js'
 import type { FeatureId } from './features.js'
 import { collectPostInstallNotes, scaffold } from './scaffold.js'
 
@@ -21,7 +31,7 @@ async function main() {
     message: 'Project name?',
     placeholder: 'my-ixia-app',
     validate(value) {
-      const name = value.trim() || 'my-ixia-app'
+      const name = value?.trim() || 'my-ixia-app'
       if (!/^[a-z0-9-~][a-z0-9-._~]*$/.test(name)) {
         return 'Use a valid npm package name (lowercase, no spaces).'
       }
@@ -40,18 +50,40 @@ async function main() {
     process.exit(1)
   }
 
-  const picked = await multiselect({
-    initialValues: FEATURES.filter((feature) => feature.recommended).map((feature) => feature.id),
-    message: 'Which features do you want?',
-    options: FEATURES.map((feature) => ({
-      hint: feature.hint,
-      label: feature.label,
-      value: feature.id,
-    })),
-    required: false,
-  })
+  const selectable = FEATURES.filter((feature) => !feature.hidden && !feature.group),
+    picked = await multiselect({
+      initialValues: selectable.filter((feature) => feature.recommended).map((feature) => feature.id),
+      message: 'Which features do you want?',
+      options: selectable.map((feature) => ({
+        hint: feature.hint,
+        label: feature.label,
+        value: feature.id,
+      })),
+      required: false,
+    })
   if (isCancel(picked)) {
     return bail()
+  }
+
+  // Alternatives, such as Markdown Lite or Full, are a single choice rather than checkboxes.
+  for (const [group, { message, none }] of Object.entries(FEATURE_GROUPS)) {
+    const choice = await select<FeatureId | 'none'>({
+      message,
+      options: [
+        { label: none, value: 'none' },
+        ...FEATURES.filter((feature) => feature.group === group).map((feature) => ({
+          hint: feature.hint,
+          label: feature.label,
+          value: feature.id,
+        })),
+      ],
+    })
+    if (isCancel(choice)) {
+      return bail()
+    }
+    if (choice !== 'none') {
+      picked.push(choice)
+    }
   }
 
   const features = resolveSelection(picked),
@@ -84,7 +116,7 @@ async function main() {
     )
   }
 
-  outro(`${pc.green('Done!')}\n\n  cd ${name}\n  vp install\n  vp dev`)
+  outro(`${pc.bgMagenta("You're all set. Go build something great!")}\n\n  cd ${name}\n  vp install\n  vp dev`)
 }
 
 function bail() {

@@ -2,7 +2,10 @@ import { PasswordIcon, SignInIcon, UserIcon } from '@phosphor-icons/react/dist/s
 import { mergeForm, useTransform } from '@tanstack/react-form-start'
 import type { ServerFormState } from '@tanstack/react-form-start'
 import { useNavigate } from '@tanstack/react-router'
-import { cn, Field, Form, InputGroupAddon, useAppForm } from 'ixia-ui-react'
+import { Field } from 'ixia-ui-react/field'
+import { Form, useAppForm } from 'ixia-ui-react/form'
+import { InputGroupAddon } from 'ixia-ui-react/input-group'
+import { cn } from 'ixia-ui-react/utils'
 
 import { m } from '@/paraglide/messages'
 
@@ -65,33 +68,33 @@ export function SignInForm({ state, className, children, ref, ...props }: SignIn
     >
       {children}
       <form.AppForm>
-        <form.FormErrors>{m['auth.signIn.errors.title']()}</form.FormErrors>
+        <form.Errors>{m['auth.signIn.errors.title']()}</form.Errors>
         <form.AppField name="username">
           {(field) => (
             <Field>
-              <field.FieldInputGroup>
+              <field.InputGroup>
                 <InputGroupAddon>
                   <UserIcon weight="bold" />
                 </InputGroupAddon>
-                <field.FieldInputGroupInput placeholder={m['auth.signIn.fields.username']()} />
-              </field.FieldInputGroup>
-              <field.FieldErrors />
+                <field.InputGroupInput placeholder={m['auth.signIn.fields.username']()} />
+              </field.InputGroup>
+              <field.Errors />
             </Field>
           )}
         </form.AppField>
         <form.AppField name="password">
           {(field) => (
             <Field>
-              <field.FieldInputGroup>
+              <field.InputGroup>
                 <InputGroupAddon>
                   <PasswordIcon weight="bold" />
                 </InputGroupAddon>
-                <field.FieldInputGroupInput
+                <field.InputGroupInput
                   type="password"
                   placeholder={m['auth.signIn.fields.password']()}
                 />
-              </field.FieldInputGroup>
-              <field.FieldErrors />
+              </field.InputGroup>
+              <field.Errors />
             </Field>
           )}
         </form.AppField>
@@ -100,10 +103,10 @@ export function SignInForm({ state, className, children, ref, ...props }: SignIn
             {m['auth.signIn.buttons.forgotPassword']()}
           </p>
         </div>
-        <form.FormSubmit>
+        <form.Submit>
           <SignInIcon weight="bold" />
           {m['auth.signIn.buttons.signIn']()}
-        </form.FormSubmit>
+        </form.Submit>
       </form.AppForm>
     </Form>
   )

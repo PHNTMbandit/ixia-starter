@@ -22,7 +22,7 @@
     "directory": "packages/create-ixia"
   },
   "bin": {
-    "create-ixia": "./dist/index.js"
+    "create-ixia": "./dist/index.mjs"
   },
   "files": [
     "dist",
@@ -30,18 +30,20 @@
   ],
   "type": "module",
   "scripts": {
-    "build": "tsdown",
-    "dev": "tsdown --watch",
-    "start": "node ./dist/index.js"
+    "build": "vp pack",
+    "dev": "vp pack --watch",
+    "start": "node ./dist/index.mjs"
   },
   "dependencies": {
-    "@clack/prompts": "^0.11.0",
+    "@clack/prompts": "^1.9.0",
     "picocolors": "^1.1.1"
   },
   "devDependencies": {
-    "@types/node": "^26.6.5",
-    "tsdown": "^0.15.6",
-    "typescript": "^7.0.2"
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2",
+    "@vitest/browser-playwright": "catalog:",
+    "playwright": "^1.65.1",
+    "vitest": "catalog:"
   },
   "engines": {
     "node": ">=24"

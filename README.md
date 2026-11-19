@@ -16,7 +16,7 @@ A full-stack React 19 starter built with [TanStack Start](https://tanstack.com/s
 - **TanStack Table** — Headless table utilities
 - [**Ixia UI**](https://github.com/PHNTMbandit/ixia-ui) — Component library with light and dark themes
 - **Tailwind CSS v4** — Utility-first styling with the Vite plugin
-- **Shiki** — Beautiful syntax highlighting with GitHub themes
+- **Markdown content (Lite or Full)** — Choose plain TanStack Markdown, or MDX compiled at build time with Content Collections, plus a shared page layout
 
 ### Backend
 
@@ -71,6 +71,56 @@ cd my-ixia-app
 vp install
 vp dev
 ```
+
+### Coding-agent instructions
+
+`AGENTS.md` contains repository guidance for coding agents such as Copilot and
+Codex. `CLAUDE.md` and `GEMINI.md` import the same guidance for Claude Code and
+Gemini CLI. Generated projects include their own app-specific instructions and
+Copilot guidance; update their `AGENTS.md` as the app evolves.
+
+### Markdown content and UI components
+
+The CLI asks how content pages should be written. Choose one:
+
+|                  | **Lite** (`markdown-lite`)                                         | **Full** (`markdown-full`)            |
+| ---------------- | ------------------------------------------------------------------ | ------------------------------------- |
+| Format           | Plain Markdown, callouts                                           | MDX: Markdown plus React components   |
+| Compiled         | At runtime, from any string                                        | At build time, by Content Collections |
+| Build setup      | None                                                               | Vite plugin, `content-collections.ts` |
+| Content lives in | Anything that gives you a string; sample in `src/content/pages.ts` | `.mdx` files in `content/`            |
+| Installs         | `src/features/markdown-lite`                                       | `src/features/markdown-full`          |
+
+Both also install **Content Page** at `src/features/content-page`: a compound layout with a page
+header, previous/next pagination, copy-page button, table of contents, external links, a code
+block with a copy action, and code examples with a Code and a live Preview tab (a ` ```tsx preview `
+fence). It is router-agnostic (you pass a `link` render prop) and works with either renderer. Each
+flavor adds a sample `/content/<slug>` route built on it.
+
+**Highlight** (optional, needs Full) adds build-time syntax highlighting for MDX code blocks with
+[TanStack Highlight](https://tanstack.com/highlight/latest/docs/guides/markdown-pipelines) at
+`src/features/highlight`. It runs as a rehype plugin while pages compile, so the browser ships no
+highlighter.
+
+See the guides for [Lite](src/features/markdown-lite/README.md),
+[Full](src/features/markdown-full/README.md),
+[Content Page](src/features/content-page/README.md) and
+[Highlight](src/features/highlight/README.md). Full compiles pages at build time, so register
+components through `Mdx`'s `components` prop instead of importing them inside `.mdx` files. The
+features don't prescribe SEO or site navigation. Keep those in your application.
+
+The starter and all generated projects use Ixia UI 2.6.0. Import UI components from
+their subpaths, for example `ixia-ui-react/button` or `ixia-ui-react/form`, not the
+removed package-root entry point. App forms use `form.Errors`, `form.Submit`,
+`field.InputGroup`, `field.InputGroupInput`, and `field.Errors`. Theme options and
+their type belong to the app's theme hook and utilities.
+
+The shared features (Markdown Lite, Markdown Full, Content Page and Highlight) are owned by this starter:
+`src/features/<feature>` here is the source of truth. Run `.\scripts\sync-features.ps1` after editing
+them (`-Check` verifies, `-Watch` keeps watching) to refresh the CLI templates and, when a sibling
+ixia-docs checkout exists, its copies. The CLI overlays store them under
+`templates/features/<feature>/src/features/<feature>`, preserving the generated
+`@/features/<feature>` import path. Don't edit the template or ixia-docs copies directly.
 
 ## Getting Started
 
@@ -149,18 +199,18 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Available Scripts
 
-| Command              | Description                     |
-| -------------------- | ------------------------------- |
-| `vp dev`             | Start the development server    |
-| `vp build`           | Build for production            |
-| `vp preview`         | Preview the production build    |
-| `vp test`            | Run all tests                   |
-| `vp check`           | Format, lint, and type-check    |
-| `vp run storybook`   | Start Storybook on port 6006    |
-| `vp run db:studio`   | Open Drizzle Studio             |
-| `vp run db:generate` | Generate database migrations    |
-| `vp run db:push`     | Push schema changes to database |
-| `vp run db:migrate`  | Run database migrations         |
+| Command              | Description                       |
+| -------------------- | --------------------------------- |
+| `vp dev`             | Start the development server      |
+| `vp -C . build`      | Build the root app for production |
+| `vp preview`         | Preview the production build      |
+| `vp test`            | Run all tests                     |
+| `vp check`           | Format, lint, and type-check      |
+| `vp run storybook`   | Start Storybook on port 6006      |
+| `vp run db:studio`   | Open Drizzle Studio               |
+| `vp run db:generate` | Generate database migrations      |
+| `vp run db:push`     | Push schema changes to database   |
+| `vp run db:migrate`  | Run database migrations           |
 
 ## Project Structure
 

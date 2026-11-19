@@ -8,20 +8,17 @@ import {
   UsersThreeIcon,
 } from '@phosphor-icons/react'
 import { createFileRoute, Link } from '@tanstack/react-router'
+import { Avatar, AvatarFallback } from 'ixia-ui-react/avatar'
+import { Badge } from 'ixia-ui-react/badge'
 import {
-  Avatar,
-  AvatarFallback,
-  Badge,
   BentoBox,
   BentoBoxDescription,
   BentoBoxHeader,
   BentoBoxTitle,
-  cn,
-  Profile,
-  ProfileContent,
-  ProfileName,
-  ProfileSubname,
-  Separator,
+} from 'ixia-ui-react/bento-box'
+import { Profile, ProfileContent, ProfileName, ProfileSubname } from 'ixia-ui-react/profile'
+import { Separator } from 'ixia-ui-react/separator'
+import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
@@ -34,7 +31,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarToggle,
-} from 'ixia-ui-react'
+} from 'ixia-ui-react/sidebar'
+import { cn } from 'ixia-ui-react/utils'
 
 import { LanguageSelect } from '@/components/language-select'
 import { SignOut } from '@/components/sign-out'
@@ -185,7 +183,7 @@ function RouteComponent() {
             {stats.map((stat) => (
               <BentoBox key={stat.label} size="large" className="border border-border">
                 <BentoBoxHeader>
-                  <span className="flex size-xl items-center justify-center rounded-xl bg-brand-subtle text-brand-default">
+                  <span className="flex size-xl items-center justify-center rounded-xl bg-brand-container-high text-brand-default">
                     <stat.icon weight="bold" />
                   </span>
                   <BentoBoxTitle className="text-on-surface-muted">{stat.label}</BentoBoxTitle>

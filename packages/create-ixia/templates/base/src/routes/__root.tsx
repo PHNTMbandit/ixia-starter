@@ -1,12 +1,16 @@
 import type { QueryClient } from '@tanstack/react-query'
 import { HeadContent, Scripts, createRootRouteWithContext } from '@tanstack/react-router'
-import { DrawerProvider, ToastProvider } from 'ixia-ui-react'
+import { DrawerProvider } from 'ixia-ui-react/drawer'
+import { ToastProvider } from 'ixia-ui-react/toast'
 
 // #if dark-mode
 import { ThemeProvider } from '@/hooks/use-theme'
 // #endif
 // #if localization
 import { getLocale } from '@/paraglide/runtime'
+// #endif
+// #if highlight
+import { HighlightTheme } from '@/features/highlight'
 // #endif
 
 import appCss from '../styles/input.css?url'
@@ -57,6 +61,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         {/* #endif */}
         <head>
           <HeadContent />
+          {/* #if highlight */}
+          <HighlightTheme />
+          {/* #endif */}
         </head>
         <body className="h-screen w-full">
           {/* #if dark-mode */}

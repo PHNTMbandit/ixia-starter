@@ -1,6 +1,4 @@
 import {
-  cn,
-  getThemeByValue,
   Select,
   SelectItem,
   SelectList,
@@ -8,12 +6,13 @@ import {
   SelectTitle,
   SelectTrigger,
   SelectValue,
-} from 'ixia-ui-react'
-import type { ThemeValue } from 'ixia-ui-react'
+} from 'ixia-ui-react/select'
+import { cn } from 'ixia-ui-react/utils'
 import type { ComponentProps } from 'react'
 
+import type { Theme as ThemeValue } from '@/hooks/use-theme'
 import { useTheme } from '@/hooks/use-theme'
-import { themes } from '@/utils/themes'
+import { getThemeByValue, themes } from '@/utils/themes'
 
 type ThemeSelectProps = ComponentProps<typeof SelectTrigger>
 
@@ -25,7 +24,6 @@ export function ThemeSelect({ className, ref, ...props }: ThemeSelectProps) {
         return
       }
 
-      console.log(value)
       setTheme(value)
     }
 
