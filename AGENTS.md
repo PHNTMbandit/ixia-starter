@@ -25,3 +25,41 @@ release. Add a tool name to select part of the graph. For example, run
 - [ ] If setup, runtime, or package-manager behavior looks wrong, run `vp env doctor` and include its output when asking for help.
 
 <!--VITE PLUS END-->
+
+# Ixia Starter repository
+
+This repository contains a React/TypeScript TanStack Start application and the
+`create-ixia` CLI that scaffolds projects from it. Read `README.md` for setup
+and feature details before changing either.
+
+## Layout and ownership
+
+- Application routes are in `src/routes/`, shared UI in `src/components/`, and
+  feature modules in `src/features/`. The `@/` alias points to `src/`.
+- `packages/create-ixia/src/features.ts` defines the CLI's feature registry;
+  `packages/create-ixia/src/scaffold.ts` copies the base template and selected
+  feature overlays from `packages/create-ixia/templates/`. Keep registry
+  metadata, templates, and scaffold tests consistent when changing features.
+- `src/features/content-page`, `markdown-lite`, `markdown-full`, and
+  `highlight` are the source of truth for their CLI template copies. After
+  changing them, use `pwsh -File scripts/sync-features.ps1`; add `-Check` to
+  verify synchronization. The script also updates a sibling `ixia-docs`
+  checkout if present, so inspect its destinations before running it.
+
+## Conventions
+
+- Import Ixia UI components from their subpaths, such as
+  `ixia-ui-react/button`, rather than the package root.
+- Treat `src/routeTree.gen.ts`, `src/paraglide/`, and generated CSS as generated
+  output. Edit route files or translation sources in `messages/` instead.
+- Keep server credentials in environment variables, never in client code or
+  committed files. Use `.env-template` for placeholder names, not real secrets.
+- Preserve existing TypeScript, React, localization, and formatting patterns.
+
+## Validation
+
+- Run relevant tests with `vp test`; for example,
+  `vp test --project unit src/tests/unit/content-scaffold.unit.test.ts` covers
+  the scaffold. Storybook browser tests require Playwright browsers.
+- When changing the CLI or its templates, also run
+  `vp exec pnpm --filter create-ixia build`.

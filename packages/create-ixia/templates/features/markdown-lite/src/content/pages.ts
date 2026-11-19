@@ -1,0 +1,50 @@
+import type { ContentPageData } from '@/features/content-page'
+
+// Markdown Lite renders any string, so pages can come from a CMS, a database, or files.
+export const pages = [
+  {
+    content: [
+      '## Write Markdown',
+      '',
+      'Markdown Lite renders **plain Markdown** at runtime, with GitHub Flavored Markdown tables:',
+      '',
+      '| Feature | Supported |',
+      '| ------- | --------- |',
+      '| Tables  | Yes       |',
+      '| Callouts | Yes      |',
+      '',
+      '> [!TIP]',
+      '> Edit `src/content/pages.ts` to change this page.',
+      '',
+      '## Code blocks',
+      '',
+      'Fenced code gets a copy button:',
+      '',
+      '```tsx',
+      'export function Greeting() {',
+      '  return <p>Hello from Markdown</p>',
+      '}',
+      '```',
+    ].join('\n'),
+    description: 'A sample page rendered by Markdown Lite.',
+    order: 0,
+    slug: 'hello',
+    title: 'Hello Markdown',
+  },
+  {
+    content: [
+      '## Not enough?',
+      '',
+      'Markdown Lite has no build step and no JSX. If your content needs React components,',
+      're-run `create-ixia` and choose **Full** (MDX) instead.',
+      '',
+      '## Add pages',
+      '',
+      'Append another object to `pages`. `order` sorts the previous and next links.',
+    ].join('\n'),
+    description: 'What Markdown Lite does, and when to use Full instead.',
+    order: 1,
+    slug: 'next-steps',
+    title: 'Next steps',
+  },
+] satisfies ContentPageData[]

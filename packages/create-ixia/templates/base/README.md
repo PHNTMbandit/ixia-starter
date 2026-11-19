@@ -13,6 +13,13 @@ vp dev
 
 Open [http://localhost:3000](http://localhost:3000) to view the app.
 
+## Coding-agent instructions
+
+`AGENTS.md` is the shared project guide for coding agents. `CLAUDE.md` and
+`GEMINI.md` import it for Claude Code and Gemini CLI, and
+`.github/copilot-instructions.md` provides Copilot guidance. Update
+`AGENTS.md` as the project evolves.
+
 ## Commands
 
 | Command | Description |

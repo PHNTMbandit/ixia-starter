@@ -14,8 +14,8 @@ import {
   BentoBoxFooter,
   BentoBoxHeader,
   BentoBoxTitle,
-  Button,
-} from 'ixia-ui-react'
+} from 'ixia-ui-react/bento-box'
+import { Button } from 'ixia-ui-react/button'
 import { SiBetterauth, SiGithubactions, SiNeon, SiReact, SiStorybook, SiVite } from 'react-icons/si'
 
 import { LanguageSelect } from '@/components/language-select'

@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7.0.1
+
+      - name: Set up Vite+
+        uses: voidzero-dev/setup-vp@v1.22.0
+        with:
+          node-version: '26'
+          cache: true
+          run-install: false
+
+      - name: Install dependencies
+        run: vp install --frozen-lockfile
+
+      - name: Generate Paraglide messages
+        if: ${{ hashFiles('project.inlang/settings.json') != '' }}
+        run: vp exec paraglide-js compile --project ./project.inlang --outdir ./src/paraglide
+
+      - name: Check code
+        run: vp check
+
+      - name: Install Playwright Browsers
+        if: ${{ hashFiles('node_modules/playwright/package.json') != '' }}
+        run: vp exec playwright install
+
+      - name: Test code
+        if: ${{ hashFiles('src/**/*.test.*', 'src/**/*.spec.*', 'src/**/*.stories.*') != '' }}
+        run: vp test
+
+      - name: Build application
+        run: vp build
+
+      - name: Build create-ixia
+        if: ${{ hashFiles('packages/create-ixia/package.json') != '' }}
+        run: vp exec pnpm --filter create-ixia build

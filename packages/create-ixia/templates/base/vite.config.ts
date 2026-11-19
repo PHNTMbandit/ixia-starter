@@ -6,8 +6,8 @@ import { URL } from 'node:url'
 // #if localization
 import { paraglideVitePlugin } from '@inlang/paraglide-js'
 // #endif
-// #if markdown
-import { contentCollections } from '@content-collections/vite'
+// #if markdown-full
+import contentCollections from '@content-collections/vite'
 // #endif
 // #if storybook
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin'
@@ -25,6 +25,7 @@ import { playwright } from 'vite-plus/test/browser-playwright'
 export default defineConfig({
   fmt: {
     ignorePatterns: [
+      '.content-collections/**',
       'dist/**',
       'storybook-static/**',
       'coverage/**',
@@ -60,6 +61,7 @@ export default defineConfig({
     globals: {},
     ignorePatterns: [
       '**/*.stories.tsx',
+      '.content-collections/**',
       '.storybook/**',
       'src/routeTree.gen.ts',
       'commitlint.config.js',
@@ -211,7 +213,7 @@ export default defineConfig({
       project: './project.inlang',
     }),
     // #endif
-    // #if markdown
+    // #if markdown-full
     contentCollections(),
     // #endif
     tailwindcss(),

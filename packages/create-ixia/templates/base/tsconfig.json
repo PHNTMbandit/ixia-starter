@@ -14,7 +14,8 @@
     "noUnusedLocals": true,
     "resolveJsonModule": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "content-collections": ["./.content-collections/generated"]
     },
     "skipLibCheck": true,
     "strict": true,

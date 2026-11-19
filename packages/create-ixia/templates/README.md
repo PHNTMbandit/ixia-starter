@@ -34,4 +34,4 @@ templates/
 
 1. Add an entry to `FEATURES` in `src/features.ts` (id, label, deps, env, etc.).
 2. Create `templates/features/<templateDir>/` with the files it contributes.
-3. Rebuild (`pnpm --filter create-ixia build`) and test with `node dist/index.js`.
+3. Rebuild (`vp exec pnpm --filter create-ixia build`) and test with `node dist/index.mjs`.

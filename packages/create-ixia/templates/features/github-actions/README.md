@@ -1,5 +1,10 @@
-# github-actions
+# GitHub Actions CI
 
-Contributes a CI workflow. Expected files:
+Adds `.github/workflows/ci.yml` for pull requests and pushes to `main`. It runs
+`vp check` and `vp build`, runs `vp test` when matching tests or stories exist
+under `src/`, and enables Paraglide and Playwright setup when those optional
+features are installed.
 
-- `.github/workflows/ci.yml` (format, lint, test, build on PRs)
+Run `vp install` and `vp check --fix` locally, then commit the formatted files
+and generated `pnpm-lock.yaml`. CI installs dependencies with
+`--frozen-lockfile`.
