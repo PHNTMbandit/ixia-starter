@@ -343,6 +343,7 @@ describe('github actions scaffolding', () => {
         ])
 
       expect(generated.replaceAll('\r\n', '\n')).toBe(repository.replaceAll('\r\n', '\n'))
+      expect(generated).toMatch(/- name: Build application\s+run: vp -C \. build/)
       expect({ generatedCli, localization, playwright, repositoryCli, tests }).toStrictEqual({
         generatedCli: false,
         localization: scenario.localization,

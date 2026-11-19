@@ -42,7 +42,7 @@ jobs:
         run: vp test
 
       - name: Build application
-        run: vp build
+        run: vp -C . build
 
       - name: Build create-ixia
         if: ${{ hashFiles('packages/create-ixia/package.json') != '' }}

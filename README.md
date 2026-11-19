@@ -199,18 +199,18 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Available Scripts
 
-| Command              | Description                     |
-| -------------------- | ------------------------------- |
-| `vp dev`             | Start the development server    |
-| `vp build`           | Build for production            |
-| `vp preview`         | Preview the production build    |
-| `vp test`            | Run all tests                   |
-| `vp check`           | Format, lint, and type-check    |
-| `vp run storybook`   | Start Storybook on port 6006    |
-| `vp run db:studio`   | Open Drizzle Studio             |
-| `vp run db:generate` | Generate database migrations    |
-| `vp run db:push`     | Push schema changes to database |
-| `vp run db:migrate`  | Run database migrations         |
+| Command              | Description                       |
+| -------------------- | --------------------------------- |
+| `vp dev`             | Start the development server      |
+| `vp -C . build`      | Build the root app for production |
+| `vp preview`         | Preview the production build      |
+| `vp test`            | Run all tests                     |
+| `vp check`           | Format, lint, and type-check      |
+| `vp run storybook`   | Start Storybook on port 6006      |
+| `vp run db:studio`   | Open Drizzle Studio               |
+| `vp run db:generate` | Generate database migrations      |
+| `vp run db:push`     | Push schema changes to database   |
+| `vp run db:migrate`  | Run database migrations           |
 
 ## Project Structure
 
