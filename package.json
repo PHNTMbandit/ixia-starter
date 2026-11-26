@@ -102,7 +102,7 @@
     "@tanstack/eslint-plugin-query": "^5.108.0",
     "@tanstack/eslint-plugin-router": "^1.162.0",
     "@testing-library/dom": "^10.4.2",
-    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/jest-dom": "^8.0.0",
     "@testing-library/react": "^16.3.3",
     "@types/mdast": "^4.0.4",
     "@types/node": "^26.6.6",
